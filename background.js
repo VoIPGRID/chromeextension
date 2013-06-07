@@ -15,6 +15,10 @@ if (!storage.url) {
   storage.url = base_platform_url;
 }
 
+if (!storage.c2d) {
+  storage.c2d = "true";
+}
+
 var platform_url = storage.url;
 
 var selected_fixed = null;
@@ -396,7 +400,7 @@ var setIcon = function() {
 // bind changes to the local storage
 $(window).bind('storage', function (e) {
   // logout
-  if (e.originalEvent.key = "url") {
+  if (e.originalEvent.key == "url") {
     platform_url = e.originalEvent.newValue;
     loggedOut();
     setIcon();
@@ -549,6 +553,12 @@ chrome.extension.onMessage.addListener(
     }
   }
 );
+
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+    if (request.method == "isC2DEnabled") {
+      sendResponse(storage.c2d);
+    }
+});
 
 var clickOnMenu = function(info, tab) {
   var number = info.selectionText.replace('(0)', '').replace(/[- \.\(\)]/g, '');
