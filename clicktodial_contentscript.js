@@ -65,7 +65,8 @@ $(function () {
                     }
                 }
                 
-                $(elements[i]).replaceWith($('<span>').append(splits));
+                if (splits.length > 1)
+                    $(elements[i]).replaceWith($('<span>').append(splits));
             }
 
         };
@@ -116,7 +117,8 @@ $(function () {
         var observer = new MutationObserver(observerCallback);
 
         var config = { 
-            childList: true, 
+            childList: true,
+            subtree: true,
             characterData: true
         };
 
